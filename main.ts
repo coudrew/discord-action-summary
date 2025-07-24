@@ -39,8 +39,13 @@ async function handler(req: Request) {
       }
     }
 
-    if (url.pathname === "/messages" && req.method === "GET") {
+    if (url.pathname === "/summarize" && req.method === "GET") {
       const name = url.searchParams.get("channel_name");
+
+      if (!name) {
+        return new Response("Channel name is required", { status: 400 });
+      }
+
       const lastMessageId = url.searchParams.get("last_message_id");
       let channelId: string = "";
       const channels = await service.getActiveChannels();
@@ -57,7 +62,9 @@ async function handler(req: Request) {
         lastMessageId || "",
       );
 
-      return new Response(JSON.stringify(messages), {
+      const summary = await service.summarizeMessages(messages);
+
+      return new Response(JSON.stringify(summary), {
         headers: {
           "Content-type": "application/json",
         },
