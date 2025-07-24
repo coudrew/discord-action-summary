@@ -120,30 +120,31 @@ export interface DiscordMessage {
   referenced_message?: DiscordMessage;
 }
 
-// Simplified Essential Message Structure
-export interface EssentialReaction {
+// Simplified message structure
+export interface SimplifiedMessageReaction {
   emoji: string;
   count: number;
 }
 
-export interface EssentialReplyContext {
+export interface SimplifiedMessageReplyContext {
   id: string;
   author?: string;
   content_preview?: string;
 }
 
-export interface EssentialMessage {
+export interface SimplifiedMessage {
   id: string;
   timestamp: string;
   author: string;
   content: string;
   mentions?: string[];
-  reactions?: EssentialReaction[];
+  reactions?: SimplifiedMessageReaction[];
   has_attachments?: boolean;
   pinned?: boolean;
-  replying_to?: EssentialReplyContext;
+  replying_to?: SimplifiedMessageReplyContext;
 }
 
+// OpenAI types
 export interface Thread {
   id: string;
   object: string;

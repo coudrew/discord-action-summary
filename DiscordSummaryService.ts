@@ -1,7 +1,7 @@
 import type {
   Channel,
   DiscordMessage,
-  EssentialMessage,
+  SimplifiedMessage,
   Thread,
   Message,
   Run,
@@ -58,7 +58,7 @@ export class DiscordSummaryService {
   async fetchMessages(
     channelId: string,
     lastMessageId?: string,
-  ): Promise<EssentialMessage[]> {
+  ): Promise<SimplifiedMessage[]> {
     const url = `${this.discordApiUrl}/channels/${channelId}/messages`;
     const params = new URLSearchParams({ limit: "100" });
 
@@ -86,7 +86,7 @@ export class DiscordSummaryService {
       (msg) => !msg.author.bot && msg.content.trim(),
     );
 
-    const simplifiedMessages: EssentialMessage[] = filteredMessages.map(
+    const simplifiedMessages: SimplifiedMessage[] = filteredMessages.map(
       (msg) => ({
         id: msg.id,
         timestamp: msg.timestamp,
@@ -138,7 +138,7 @@ export class DiscordSummaryService {
     return await response.json();
   }
 
-  async summarizeMessages(messages: EssentialMessage[]): Promise<string> {
+  async summarizeMessages(messages: SimplifiedMessage[]): Promise<string> {
     if (!messages.length) {
       return "No messages";
     }
